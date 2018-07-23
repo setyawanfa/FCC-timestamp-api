@@ -4,6 +4,8 @@
 // init project
 var express = require('express');
 var app = express();
+var bodyParser = require('body-parser');
+var myapp = require('./App.js')
 
 // enable CORS (https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
 // so that your API is remotely testable by FCC 
@@ -25,8 +27,12 @@ app.get("/api/hello", function (req, res) {
 });
 
 
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use('/public', express.static(process.cwd() + '/public'));
 
+myapp(app)
 // listen for requests :)
-var listener = app.listen(process.env.PORT, function () {
+var listener = app.listen(process.env.PORT , function () {
   console.log('Your app is listening on port ' + listener.address().port);
 });
